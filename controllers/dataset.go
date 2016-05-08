@@ -49,6 +49,8 @@ func (c *DatasetController) GetDatasetInfo() {
 	dataset.Modality = reader.Dataset.Modality()
 	dataset.Rows = reader.Dataset.Rows()
 	dataset.Columns = reader.Dataset.Columns()
+	dataset.WindowCenter = reader.Dataset.WindowCenter()
+	dataset.WindowWidth = reader.Dataset.WindowWidth()
 
 	c.Data["json"] = &dataset
 	c.ServeJSON()
