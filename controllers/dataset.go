@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"io/ioutil"
+	"log"
+
 	"github.com/grayzone/godcm/core"
 	"github.com/grayzone/godcmviewer/models"
 )
@@ -34,6 +37,13 @@ func (c *DatasetController) GetMetaInfo() {
 	c.ServeJSON()
 }
 
+func saveTofile(filename string, b []byte) {
+	err := ioutil.WriteFile(filename, b, 0644)
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
 // GetDatasetInfo gets data elmements information
 func (c *DatasetController) GetDatasetInfo() {
 	var dataset models.DcmDataset
@@ -51,6 +61,10 @@ func (c *DatasetController) GetDatasetInfo() {
 	dataset.Columns = reader.Dataset.Columns()
 	dataset.WindowCenter = reader.Dataset.WindowCenter()
 	dataset.WindowWidth = reader.Dataset.WindowWidth()
+	dataset.SOPInstanceUID = reader.Dataset.SOPInstanceUID()
+
+	pixeldata := reader.Dataset.PixelData()
+	saveTofile(dataset.SOPInstanceUID, pixeldata)
 
 	c.Data["json"] = &dataset
 	c.ServeJSON()
