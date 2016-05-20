@@ -11,4 +11,9 @@ type DcmDataset struct {
 	WindowWidth    string
 	WindowCenter   string
 	PixelData      string
+	//	PixelWidth     string
+	//	PixelHeight    string
+	BitsAllocated string
+	BitsStored    string
+	HighBit       string
 }

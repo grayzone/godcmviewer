@@ -63,6 +63,10 @@ func (c *DatasetController) GetDatasetInfo() {
 	dataset.WindowWidth = reader.Dataset.WindowWidth()
 	dataset.SOPInstanceUID = reader.Dataset.SOPInstanceUID()
 
+	dataset.BitsAllocated = reader.Dataset.BitsAllocated()
+	dataset.BitsStored = reader.Dataset.BitsStored()
+	dataset.HighBit = reader.Dataset.HighBit()
+
 	pixeldata := reader.Dataset.PixelData()
 	saveTofile(dataset.SOPInstanceUID, pixeldata)
 
