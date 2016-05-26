@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/grayzone/godcm/core"
+	_ "github.com/grayzone/godcm/image"
 	"github.com/grayzone/godcmviewer/models"
 )
 
@@ -35,6 +36,12 @@ func (c *DatasetController) GetMetaInfo() {
 
 	c.Data["json"] = &meta
 	c.ServeJSON()
+}
+
+// ConvertToBMP covert the dicom file to BMP file
+func (c *DatasetController) ConvertToBMP() {
+	//	var reader
+
 }
 
 func saveTofile(filename string, b []byte) {
