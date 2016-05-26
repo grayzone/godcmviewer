@@ -8,7 +8,7 @@ import (
 	"github.com/grayzone/godcmviewer/models"
 )
 
-var filepath = ".\\static\\data\\IM-0001-0010.dcm"
+var filepath = ".\\static\\data\\xr_chest.dcm"
 
 // GetMetaInfo gets meta information from file.
 func (c *DatasetController) GetMetaInfo() {
@@ -66,10 +66,20 @@ func (c *DatasetController) GetDatasetInfo() {
 	dataset.BitsAllocated = reader.Dataset.BitsAllocated()
 	dataset.BitsStored = reader.Dataset.BitsStored()
 	dataset.HighBit = reader.Dataset.HighBit()
+	dataset.PixelRepresentation = reader.Dataset.PixelRepresentation()
 
-	pixeldata := reader.Dataset.PixelData()
-	saveTofile(dataset.SOPInstanceUID, pixeldata)
+	dataset.NumberOfFrames = reader.Dataset.NumberOfFrames()
 
+	dataset.PhotometricInterpretation = reader.Dataset.PhotometricInterpretation()
+	dataset.SamplesPerPixel = reader.Dataset.SamplesPerPixel()
+
+	dataset.RescaleSlope = reader.Dataset.RescaleSlope()
+	dataset.RescaleIntercept = reader.Dataset.RescaleIntercept()
+
+	/*
+		pixeldata := reader.Dataset.PixelData()
+		saveTofile(dataset.SOPInstanceUID, pixeldata)
+	*/
 	c.Data["json"] = &dataset
 	c.ServeJSON()
 

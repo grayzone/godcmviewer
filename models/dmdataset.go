@@ -13,7 +13,13 @@ type DcmDataset struct {
 	PixelData      string
 	//	PixelWidth     string
 	//	PixelHeight    string
-	BitsAllocated string
-	BitsStored    string
-	HighBit       string
+	BitsAllocated             string
+	BitsStored                string
+	HighBit                   string
+	PhotometricInterpretation string
+	SamplesPerPixel           string
+	PixelRepresentation       string
+	NumberOfFrames            string
+	RescaleIntercept          string
+	RescaleSlope              string
 }
