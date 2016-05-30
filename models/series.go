@@ -9,7 +9,9 @@ import (
 
 type Series struct {
 	ID                int64  `orm:"pk;auto"`
-	SeriesInstanceUID string `orm:"unique"`
+	Seriesinstanceuid string `orm:"unique"`
+	Seriesnumber      string
+	Modality          string
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`

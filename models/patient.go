@@ -8,8 +8,11 @@ import (
 )
 
 type Patient struct {
-	ID        int64  `orm:"pk;auto"`
-	PatientID string `orm:"unique"`
+	Id               int64  `orm:"pk;auto"`
+	Patientid        string `orm:"unique"`
+	Patientname      string
+	Patientbirthdate string
+	Patientsex       string
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`

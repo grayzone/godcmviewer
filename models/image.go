@@ -8,8 +8,20 @@ import (
 )
 
 type Image struct {
-	ID             int64  `orm:"pk;auto"`
-	SopInstanceUID string `orm:"unique"`
+	ID                        int64  `orm:"pk;auto"`
+	Sopinstanceuid            string `orm:"unique"`
+	Imagenumber               string
+	Imagetype                 string
+	Highbit                   string
+	Rows                      string
+	Columns                   string
+	Bitsallocated             string
+	Bitsstored                string
+	Samplesperpixel           string
+	Pixelrepersentation       string
+	Photometricinterpretation string
+	Windowwidth               string
+	Windowcenter              string
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`

@@ -8,10 +8,13 @@ import (
 )
 
 type Study struct {
-	ID               int64  `orm:"pk;auto"`
-	StudyInstanceUID string `orm:"unique"`
-	PatientName      string
-	PatientID        string
+	ID                 int64  `orm:"pk;auto"`
+	Studyinstanceuid   string `orm:"unique"`
+	Studyid            string
+	Studydate          string
+	Studytime          string
+	Referringphysician string
+	Accessionnumber    string
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
