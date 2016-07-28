@@ -8,7 +8,7 @@ import (
 )
 
 type Study struct {
-	ID                 int64  `orm:"pk;auto"`
+	Id                 int64  `orm:"pk;auto"`
 	Studyinstanceuid   string `orm:"unique"`
 	Studyid            string
 	Studydate          string
@@ -36,7 +36,7 @@ func (s *Study) Insert() error {
 		o.Rollback()
 		return err
 	}
-	s.ID = id
+	s.Id = id
 
 	o.Commit()
 	return nil

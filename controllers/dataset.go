@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/grayzone/godcm/core"
-	_ "github.com/grayzone/godcm/image"
+	_ "github.com/grayzone/godcm/dcmimage"
 	"github.com/grayzone/godcmviewer/models"
 )
 

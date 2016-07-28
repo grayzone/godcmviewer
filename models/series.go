@@ -8,7 +8,7 @@ import (
 )
 
 type Series struct {
-	ID                int64  `orm:"pk;auto"`
+	Id                int64  `orm:"pk;auto"`
 	Seriesinstanceuid string `orm:"unique"`
 	Seriesnumber      string
 	Modality          string
@@ -33,7 +33,7 @@ func (s *Series) Insert() error {
 		o.Rollback()
 		return err
 	}
-	s.ID = id
+	s.Id = id
 
 	o.Commit()
 	return nil

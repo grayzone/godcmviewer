@@ -10,5 +10,6 @@ func init() {
 
 	beego.Router("/getmetainfo", &controllers.DatasetController{}, "GET:GetMetaInfo")
 	beego.Router("/getdatasetinfo", &controllers.DatasetController{}, "GET:GetDatasetInfo")
+	beego.Router("/uploaddcmfile", &controllers.UploadController{})
 
 }

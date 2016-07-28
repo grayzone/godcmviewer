@@ -34,7 +34,7 @@ func (p *Patient) Insert() error {
 		o.Rollback()
 		return err
 	}
-	p.ID = id
+	p.Id = id
 
 	o.Commit()
 	return nil

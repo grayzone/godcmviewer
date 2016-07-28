@@ -7,8 +7,8 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type Image struct {
-	ID                        int64  `orm:"pk;auto"`
+type Slice struct {
+	Id                        int64  `orm:"pk;auto"`
 	Sopinstanceuid            string `orm:"unique"`
 	Imagenumber               string
 	Imagetype                 string
@@ -27,13 +27,13 @@ type Image struct {
 	Updated time.Time `orm:"auto_now;type(datetime)"`
 }
 
-func (i Image) Get() error {
+func (i Slice) Get() error {
 	o := orm.NewOrm()
 	err := o.Read(i)
 	return err
 }
 
-func (i *Image) Insert() error {
+func (i *Slice) Insert() error {
 	o := orm.NewOrm()
 	o.Begin()
 
@@ -43,7 +43,7 @@ func (i *Image) Insert() error {
 		o.Rollback()
 		return err
 	}
-	i.ID = id
+	i.Id = id
 
 	o.Commit()
 	return nil
