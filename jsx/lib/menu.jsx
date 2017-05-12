@@ -13,6 +13,9 @@ export default class GoDCMMenu extends React.Component {
         <Menu.Item key="list">
           <a href="/">List</a>
         </Menu.Item>
+        <Menu.Item key="upload">
+          <a href="/upload">Upload</a>
+        </Menu.Item>
         <Menu.Item key="admin">
           <a href="/admin">Admin</a>
         </Menu.Item>
