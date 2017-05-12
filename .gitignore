@@ -1,0 +1,12 @@
+node_modules/
+.vscode/
+vendor/
+
+*.db
+godcmviewer
+godcmviewer.exe*
+godcmviewer.js
+
+Gopkg.*
+yarn.*
+

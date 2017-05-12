@@ -4,10 +4,15 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/astaxie/beego"
 	"github.com/grayzone/godcm/core"
 	_ "github.com/grayzone/godcm/dcmimage"
 	"github.com/grayzone/godcmviewer/models"
 )
+
+type DatasetController struct {
+	beego.Controller
+}
 
 var filepath = ".\\static\\data\\xr_chest.dcm"
 
