@@ -8,7 +8,7 @@ import (
 
 func init() {
 	initSqlite()
-	orm.RegisterModel(new(Patient), new(Study), new(Series), new(Slice))
+	orm.RegisterModel(new(Patient), new(Study), new(Series), new(Slice), new(UploadFile))
 	createTables()
 
 }

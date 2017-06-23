@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/astaxie/beego"
+	"github.com/grayzone/godcmviewer/models"
 )
 
 type UploadController struct {
@@ -32,6 +33,10 @@ func (this *UploadController) UploadDicom() {
 	}
 
 	this.SaveToFile("dicom", downloadFolder+"/"+h.Filename)
+
+	var upload models.UploadFile
+	upload.Filepath = h.Filename
+	upload.Insert()
 
 	result := "ok"
 	this.Data["json"] = &result
