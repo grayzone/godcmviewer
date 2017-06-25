@@ -5,15 +5,12 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/grayzone/godcm/models"
 )
 
 type Patient struct {
-	Id               int64  `orm:"pk;auto"`
-	Patientid        string `orm:"unique"`
-	Patientname      string
-	Patientbirthdate string
-	Patientsex       string
-
+	ID int64 `orm:"pk;auto;column(id)"`
+	models.Patient
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
 }
@@ -34,7 +31,7 @@ func (p *Patient) Insert() error {
 		o.Rollback()
 		return err
 	}
-	p.Id = id
+	p.ID = id
 
 	o.Commit()
 	return nil

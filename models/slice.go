@@ -5,24 +5,12 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/grayzone/godcm/models"
 )
 
 type Slice struct {
-	Id                        int64  `orm:"pk;auto"`
-	Sopinstanceuid            string `orm:"unique"`
-	Imagenumber               string
-	Imagetype                 string
-	Highbit                   string
-	Rows                      string
-	Columns                   string
-	Bitsallocated             string
-	Bitsstored                string
-	Samplesperpixel           string
-	Pixelrepersentation       string
-	Photometricinterpretation string
-	Windowwidth               string
-	Windowcenter              string
-
+	ID int64 `orm:"pk;auto;column(id)"`
+	models.Slice
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
 }
@@ -43,7 +31,7 @@ func (i *Slice) Insert() error {
 		o.Rollback()
 		return err
 	}
-	i.Id = id
+	i.ID = id
 
 	o.Commit()
 	return nil

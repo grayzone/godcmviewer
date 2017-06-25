@@ -5,17 +5,12 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/grayzone/godcm/models"
 )
 
 type Study struct {
-	Id                 int64  `orm:"pk;auto"`
-	Studyinstanceuid   string `orm:"unique"`
-	Studyid            string
-	Studydate          string
-	Studytime          string
-	Referringphysician string
-	Accessionnumber    string
-
+	ID int64 `orm:"pk;auto;column(id)"`
+	models.Study
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
 }
@@ -36,7 +31,7 @@ func (s *Study) Insert() error {
 		o.Rollback()
 		return err
 	}
-	s.Id = id
+	s.ID = id
 
 	o.Commit()
 	return nil
