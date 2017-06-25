@@ -5,14 +5,25 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/grayzone/godcm/models"
+	"github.com/grayzone/godcm/core"
+	"github.com/grayzone/godcm/dcmmodel"
 )
 
 type Patient struct {
 	ID int64 `orm:"pk;auto;column(id)"`
-	models.Patient
+	dcmmodel.Patient
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
+	Study   []Study   `orm:"-"`
+}
+
+func (p *Patient) Parse(dataset core.DcmDataset) error {
+	p.Patient.Parse(dataset)
+
+	var s Study
+	s.Parse(dataset)
+	p.Study = append(p.Study, s)
+	return nil
 }
 
 func (p Patient) Get() error {
@@ -34,5 +45,9 @@ func (p *Patient) Insert() error {
 	p.ID = id
 
 	o.Commit()
+
+	for i := range p.Study {
+		p.Study[i].Insert()
+	}
 	return nil
 }

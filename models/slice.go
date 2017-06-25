@@ -5,14 +5,15 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/grayzone/godcm/models"
+	"github.com/grayzone/godcm/dcmmodel"
 )
 
 type Slice struct {
 	ID int64 `orm:"pk;auto;column(id)"`
-	models.Slice
-	Created time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated time.Time `orm:"auto_now;type(datetime)"`
+	dcmmodel.Slice
+	Filepath string
+	Created  time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated  time.Time `orm:"auto_now;type(datetime)"`
 }
 
 func (i Slice) Get() error {

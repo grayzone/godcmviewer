@@ -5,14 +5,25 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/grayzone/godcm/models"
+	"github.com/grayzone/godcm/core"
+	"github.com/grayzone/godcm/dcmmodel"
 )
 
 type Series struct {
 	ID int64 `orm:"pk;auto;column(id)"`
-	models.Series
+	dcmmodel.Series
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
+	Slice   []Slice   `orm:"-"`
+}
+
+func (s *Series) Parse(dataset core.DcmDataset) error {
+	s.Series.Parse(dataset)
+
+	var sli Slice
+	sli.Parse(dataset)
+	s.Slice = append(s.Slice, sli)
+	return nil
 }
 
 func (s Series) Get() error {
@@ -34,5 +45,10 @@ func (s *Series) Insert() error {
 	s.ID = id
 
 	o.Commit()
+
+	for i := range s.Slice {
+		s.Slice[i].Insert()
+	}
+
 	return nil
 }

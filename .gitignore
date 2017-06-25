@@ -2,6 +2,7 @@ node_modules/
 .vscode/
 vendor/
 download/
+data/
 
 *.db
 godcmviewer
@@ -10,4 +11,7 @@ godcmviewer.js
 
 Gopkg.*
 yarn.*
+
+DEBUG
+
 
