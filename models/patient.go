@@ -51,3 +51,10 @@ func (p *Patient) Insert() error {
 	}
 	return nil
 }
+
+func GetPatients() []Patient {
+	var result []Patient
+	o := orm.NewOrm()
+	o.QueryTable("patient").OrderBy("-Created").All(&result)
+	return result
+}

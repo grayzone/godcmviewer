@@ -10,6 +10,8 @@ func init() {
 	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/admin", &controllers.AdminController{})
 
+	beego.Router("/patientlist", &controllers.PatientController{}, "GET:GetPatientList")
+
 	beego.Router("/upload/dicom", &controllers.UploadController{}, "POST:UploadDicom")
 
 }
