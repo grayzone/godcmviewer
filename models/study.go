@@ -12,9 +12,10 @@ import (
 type Study struct {
 	ID int64 `orm:"pk;auto;column(id)"`
 	dcmmodel.Study
-	Created time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated time.Time `orm:"auto_now;type(datetime)"`
-	Series  []Series  `orm:"-"`
+	PatientUID int64     `orm:"column(patientuid)"`
+	Created    time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated    time.Time `orm:"auto_now;type(datetime)"`
+	Series     []Series  `orm:"-"`
 }
 
 func (s *Study) Parse(dataset core.DcmDataset) error {
@@ -47,6 +48,7 @@ func (s *Study) Insert() error {
 	o.Commit()
 
 	for i := range s.Series {
+		s.Series[i].StudyUID = s.ID
 		s.Series[i].Insert()
 	}
 

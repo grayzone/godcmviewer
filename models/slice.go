@@ -11,9 +11,10 @@ import (
 type Slice struct {
 	ID int64 `orm:"pk;auto;column(id)"`
 	dcmmodel.Slice
-	Filepath string
-	Created  time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated  time.Time `orm:"auto_now;type(datetime)"`
+	SeriesUID int64 `orm:"column(seriesuid)"`
+	Filepath  string
+	Created   time.Time `orm:"auto_now_add;type(datetime)"`
+	Updated   time.Time `orm:"auto_now;type(datetime)"`
 }
 
 func (i Slice) Get() error {

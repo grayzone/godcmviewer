@@ -47,6 +47,7 @@ func (p *Patient) Insert() error {
 	o.Commit()
 
 	for i := range p.Study {
+		p.Study[i].PatientUID = p.ID
 		p.Study[i].Insert()
 	}
 	return nil
