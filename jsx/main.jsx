@@ -4,6 +4,7 @@ import GoDCMMenu from "./lib/menu";
 import GoDcmAdmin from "./lib/admin";
 import PatientList from "./lib/list";
 import UploadDcm from "./lib/upload";
+import StudyList from "./lib/study";
 
 var menuDIV = document.getElementById("godcmMenu");
 if (menuDIV != null) {
@@ -13,6 +14,11 @@ if (menuDIV != null) {
 var patientListDIV = document.getElementById("patientlist");
 if (patientListDIV != null) {
   ReactDOM.render(<PatientList />, patientListDIV);
+}
+
+var studyListDIV = document.getElementById("studylist");
+if (studyListDIV != null) {
+  ReactDOM.render(<StudyList />, studyListDIV);
 }
 
 var uploadDcmDIV = document.getElementById("upload");

@@ -42,7 +42,8 @@ export default class PatientList extends React.Component {
       var data = {
         PatientName: pl[i].PatientName,
         PatientID: pl[i].PatientID,
-        PatientBirthDate: pl[i].PatientBirthDate
+        PatientBirthDate: pl[i].PatientBirthDate,
+        ID: pl[i].ID
       };
       var p = <Col span={4}><PatientCard data={data} /></Col>;
       list.push(p);

@@ -4,15 +4,19 @@ import { Card, Row, Col } from "antd";
 export default class PatientCard extends React.Component {
   constructor(props) {
     super(props);
+    /*
     this.state = {
       PatientName: "",
       PatientID: "",
-      PatientBirthDate: ""
+      PatientBirthDate: "",
+      ID:""
     };
+    */
   }
 
   handleClick = e => {
     console.log("click card:", this.props.data.PatientName);
+    window.location.href = "/study/" + this.props.data.ID;
   };
   render() {
     return (
