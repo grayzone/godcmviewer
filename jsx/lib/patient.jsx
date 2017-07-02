@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
+import StudyList from "./study";
 
 export default class PatientCard extends React.Component {
   constructor(props) {
@@ -14,18 +15,21 @@ export default class PatientCard extends React.Component {
     */
   }
 
-  handleClick = e => {
-    console.log("click card:", this.props.data.PatientName);
-    window.location.href = "/study/" + this.props.data.ID;
-  };
+
   render() {
     return (
-      <Card title={this.props.data.PatientName} onClick={this.handleClick}>
+      <Card title={this.props.data.PatientName} >
         <Row>
-          <Col>Patient ID: {this.props.data.PatientID}</Col>
-          <Col>Patient Birth: {this.props.data.PatientBirthDate}</Col>
+          <Col>
+            Patient ID: {this.props.data.PatientID}
+          </Col>
+          <Col>
+            Patient Birth: {this.props.data.PatientBirthDate}
+          </Col>
+          <Col>
+            <StudyList patientuid={this.props.data.ID} />
+          </Col>
         </Row>
-
       </Card>
     );
   }

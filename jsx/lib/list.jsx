@@ -19,15 +19,15 @@ export default class PatientList extends React.Component {
       type: "GET",
       cache: false,
       async: false,
-      success: (data => {
+      success: data => {
         console.log("get the patient list.", data);
         this.setState({
           patientList: data
         });
-      }).bind(this),
-      error: ((xhr, status, err) => {
+      },
+      error: (xhr, status, err) => {
         console.error(url, status, err.toString());
-      }).bind(this)
+      }
     });
   };
 
@@ -45,7 +45,11 @@ export default class PatientList extends React.Component {
         PatientBirthDate: pl[i].PatientBirthDate,
         ID: pl[i].ID
       };
-      var p = <Col span={4}><PatientCard data={data} /></Col>;
+      var p = (
+        <Col span={4}>
+          <PatientCard data={data} />
+        </Col>
+      );
       list.push(p);
     }
     return (

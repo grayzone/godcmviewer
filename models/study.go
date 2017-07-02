@@ -54,3 +54,10 @@ func (s *Study) Insert() error {
 
 	return nil
 }
+
+func GetStudies(patientuid string) []Study {
+	var result []Study
+	o := orm.NewOrm()
+	o.QueryTable("study").Filter("patientuid", patientuid).OrderBy("-Created").All(&result)
+	return result
+}

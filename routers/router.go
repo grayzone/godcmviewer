@@ -12,6 +12,7 @@ func init() {
 	beego.Router("/study/?:id", &controllers.StudyController{})
 
 	beego.Router("/patientlist", &controllers.PatientController{}, "GET:GetPatientList")
+	beego.Router("/studylist", &controllers.StudyController{}, "POST:GetStudyList")
 
 	beego.Router("/upload/dicom", &controllers.UploadController{}, "POST:UploadDicom")
 
