@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -23,13 +22,34 @@ func (s Slice) Get() error {
 	return err
 }
 
+func (s *Slice) isExisted() bool {
+	o := orm.NewOrm()
+	var tmp Slice
+	tmp.SOPInstanceUID = s.SOPInstanceUID
+	err := o.Read(&tmp, "SOPInstanceUID")
+	if err == nil {
+		s.ID = tmp.ID
+		return true
+	}
+	return false
+}
+
+func (s Slice) Update() error {
+	o := orm.NewOrm()
+	s.Updated = time.Now()
+	_, err := o.Update(&s, "Filepath", "SeriesUID", "Updated")
+	return err
+}
+
 func (s *Slice) Insert() error {
 	o := orm.NewOrm()
-	_, _, err := o.ReadOrCreate(s, "SOPInstanceUID")
-	if err != nil {
-		e := fmt.Errorf("failed to insert slice:%v", err)
-		return e
+	if s.isExisted() {
+		return s.Update()
 	}
-
+	id, err := o.Insert(s)
+	if err != nil {
+		return err
+	}
+	s.ID = id
 	return nil
 }

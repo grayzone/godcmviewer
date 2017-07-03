@@ -33,10 +33,13 @@ func (s Series) Get() error {
 	return err
 }
 
-func (s Series) isExisted() bool {
+func (s *Series) isExisted() bool {
 	o := orm.NewOrm()
-	err := o.Read(&s, "SeriesInstanceUID")
+	var tmp Series
+	tmp.SeriesInstanceUID = s.SeriesInstanceUID
+	err := o.Read(&tmp, "SeriesInstanceUID")
 	if err == nil {
+		s.ID = tmp.ID
 		return true
 	}
 	return false

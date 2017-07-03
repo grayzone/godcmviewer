@@ -33,10 +33,13 @@ func (s Study) Get() error {
 	return err
 }
 
-func (s Study) isExisted() bool {
+func (s *Study) isExisted() bool {
 	o := orm.NewOrm()
-	err := o.Read(&s, "StudyInstanceUID")
+	var tmp Study
+	tmp.StudyInstanceUID = s.StudyInstanceUID
+	err := o.Read(&tmp, "StudyInstanceUID")
 	if err == nil {
+		s.ID = tmp.ID
 		return true
 	}
 	return false

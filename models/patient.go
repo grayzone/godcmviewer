@@ -33,10 +33,13 @@ func (p Patient) Get() error {
 	return err
 }
 
-func (p Patient) isExisted() bool {
+func (p *Patient) isExisted() bool {
 	o := orm.NewOrm()
-	err := o.Read(&p, "PatientID")
+	var tmp Patient
+	tmp.PatientID = p.PatientID
+	err := o.Read(&tmp, "PatientID")
 	if err == nil {
+		p.ID = tmp.ID
 		return true
 	}
 	return false
