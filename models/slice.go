@@ -1,7 +1,7 @@
 package models
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -17,24 +17,19 @@ type Slice struct {
 	Updated   time.Time `orm:"auto_now;type(datetime)"`
 }
 
-func (i Slice) Get() error {
+func (s Slice) Get() error {
 	o := orm.NewOrm()
-	err := o.Read(i)
+	err := o.Read(s)
 	return err
 }
 
-func (i *Slice) Insert() error {
+func (s *Slice) Insert() error {
 	o := orm.NewOrm()
-	o.Begin()
-
-	id, err := o.Insert(i)
+	_, _, err := o.ReadOrCreate(s, "SOPInstanceUID")
 	if err != nil {
-		log.Println(err.Error())
-		o.Rollback()
-		return err
+		e := fmt.Errorf("failed to insert slice:%v", err)
+		return e
 	}
-	i.ID = id
 
-	o.Commit()
 	return nil
 }

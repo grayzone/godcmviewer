@@ -1,8 +1,9 @@
 package models
 
 import (
-	"log"
 	"time"
+
+	"fmt"
 
 	"github.com/astaxie/beego/orm"
 	"github.com/grayzone/godcm/core"
@@ -32,20 +33,25 @@ func (p Patient) Get() error {
 	return err
 }
 
+func (p Patient) isExisted() bool {
+	o := orm.NewOrm()
+	err := o.Read(&p, "PatientID")
+	if err == nil {
+		return true
+	}
+	return false
+}
+
 func (p *Patient) Insert() error {
 	o := orm.NewOrm()
-	o.Begin()
-
-	id, err := o.Insert(p)
-	if err != nil {
-		log.Println(err.Error())
-		o.Rollback()
-		return err
+	if !p.isExisted() {
+		id, err := o.Insert(p)
+		if err != nil {
+			e := fmt.Errorf("failed to insert patient:%v", err)
+			return e
+		}
+		p.ID = id
 	}
-	p.ID = id
-
-	o.Commit()
-
 	for i := range p.Study {
 		p.Study[i].PatientUID = p.ID
 		p.Study[i].Insert()

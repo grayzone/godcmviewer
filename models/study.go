@@ -1,7 +1,7 @@
 package models
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -33,20 +33,25 @@ func (s Study) Get() error {
 	return err
 }
 
+func (s Study) isExisted() bool {
+	o := orm.NewOrm()
+	err := o.Read(&s, "StudyInstanceUID")
+	if err == nil {
+		return true
+	}
+	return false
+}
+
 func (s *Study) Insert() error {
 	o := orm.NewOrm()
-	o.Begin()
-
-	id, err := o.Insert(s)
-	if err != nil {
-		log.Println(err.Error())
-		o.Rollback()
-		return err
+	if !s.isExisted() {
+		id, err := o.Insert(s)
+		if err != nil {
+			e := fmt.Errorf("failed to insert study:%v", err)
+			return e
+		}
+		s.ID = id
 	}
-	s.ID = id
-
-	o.Commit()
-
 	for i := range s.Series {
 		s.Series[i].StudyUID = s.ID
 		s.Series[i].Insert()
