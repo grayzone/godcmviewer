@@ -53,3 +53,10 @@ func (s *Slice) Insert() error {
 	s.ID = id
 	return nil
 }
+
+func GetSlices(seriesuid string) []Slice {
+	var result []Slice
+	o := orm.NewOrm()
+	o.QueryTable("Slice").Filter("SeriesUID", seriesuid).OrderBy("-Created").All(&result)
+	return result
+}

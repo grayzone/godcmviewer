@@ -63,3 +63,10 @@ func (s *Series) Insert() error {
 
 	return nil
 }
+
+func GetSeries(studyuid string) []Series {
+	var result []Series
+	o := orm.NewOrm()
+	o.QueryTable("Series").Filter("StudyUID", studyuid).OrderBy("-Created").All(&result)
+	return result
+}
