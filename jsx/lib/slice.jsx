@@ -10,8 +10,9 @@ class SliceCard extends React.Component {
   };
 
   render() {
-    return (
-      <Card onClick={this.handleSliceClick}>
+    var content;
+    if (this.props.data.Filepath.length == 0) {
+      content = (
         <Row>
           <Col>
             Instance Number:{this.props.data.InstanceNumber}
@@ -29,6 +30,13 @@ class SliceCard extends React.Component {
             Content Time:{this.props.data.ContentTime}
           </Col>
         </Row>
+      );
+    } else {
+      content = <img width="100%" src={this.props.data.Filepath} />;
+    }
+    return (
+      <Card onClick={this.handleSliceClick} bodyStyle={{ padding: 0 }}>
+        {content}
       </Card>
     );
   }

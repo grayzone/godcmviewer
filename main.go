@@ -1,11 +1,11 @@
 package main
 
 import (
-	_ "github.com/grayzone/godcmviewer/routers"
 	"github.com/astaxie/beego"
+	_ "github.com/grayzone/godcmviewer/routers"
 )
 
 func main() {
+	beego.SetStaticPath("/data", "data")
 	beego.Run()
 }
-

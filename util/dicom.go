@@ -44,7 +44,7 @@ func ImportDicomFile(filepath string) error {
 	}
 	var s models.Slice
 	s.SOPInstanceUID = reader.Dataset.SOPInstanceUID()
-	s.Filepath = "/data/" + studyInstanceUID + ".png"
+	s.Filepath = "/data/" + studyInstanceUID + "/" + s.SOPInstanceUID + ".png"
 	err = s.UpdateFilepathBySOP()
 
 	return err
