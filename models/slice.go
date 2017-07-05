@@ -41,6 +41,12 @@ func (s Slice) Update() error {
 	return err
 }
 
+func (s Slice) UpdateFilepathBySOP() error {
+	o := orm.NewOrm()
+	_, err := o.QueryTable("slice").Filter("SOPInstanceUID", s.SOPInstanceUID).Update(orm.Params{"Filepath": s.Filepath})
+	return err
+}
+
 func (s *Slice) Insert() error {
 	o := orm.NewOrm()
 	if s.isExisted() {
@@ -57,6 +63,6 @@ func (s *Slice) Insert() error {
 func GetSlices(seriesuid string) []Slice {
 	var result []Slice
 	o := orm.NewOrm()
-	o.QueryTable("Slice").Filter("SeriesUID", seriesuid).OrderBy("-Created").All(&result)
+	o.QueryTable("Slice").Filter("SeriesUID", seriesuid).OrderBy("InstanceNumber").All(&result)
 	return result
 }

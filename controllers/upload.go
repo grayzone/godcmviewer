@@ -61,6 +61,7 @@ func importDICOM() {
 		select {
 		case f := <-dicomfile:
 			util.ImportDicomFile(f)
+
 			//			beego.Info("imported dicom file:", f)
 			//		default:
 			//			beego.Info("no file imported")

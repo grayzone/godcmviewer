@@ -27,7 +27,8 @@ func ImportDicomFile(filepath string) error {
 	*/
 	workSpacePath, _ := os.Getwd()
 	dataFolder := workSpacePath + "/data/"
-	studyFolder := dataFolder + patient.Study[0].StudyInstanceUID
+	studyInstanceUID := patient.Study[0].StudyInstanceUID
+	studyFolder := dataFolder + studyInstanceUID
 	// fmt.Println("study folder:", studyFolder)
 	err = os.MkdirAll(studyFolder, 0644)
 	if err != nil {
@@ -35,9 +36,16 @@ func ImportDicomFile(filepath string) error {
 	}
 	newpath := studyFolder + "/" + reader.Dataset.SOPInstanceUID()
 
-	reader.Convert2PNG(newpath)
-
 	os.Rename(filepath, newpath)
 
-	return nil
+	err = reader.Convert2PNG(newpath)
+	if err != nil {
+		return err
+	}
+	var s models.Slice
+	s.SOPInstanceUID = reader.Dataset.SOPInstanceUID()
+	s.Filepath = "/data/" + studyInstanceUID + ".png"
+	err = s.UpdateFilepathBySOP()
+
+	return err
 }
