@@ -55,7 +55,7 @@ export default class Slice extends React.Component {
     var slice = this.state.slice;
     //  console.log(slice);
     console.log(slice.Columns, slice.Rows);
-    this.renderer = autoDetectRenderer(256, 256);
+    this.renderer = autoDetectRenderer(0, 0);
     //this.renderer.autoResize = true;
     //this.renderer.resize(slice.Columns, slice.Rows);
 
@@ -74,7 +74,7 @@ export default class Slice extends React.Component {
       height: slice.Rows
     });
 
-    this.loop();
+    this.animate();
   };
 
   sliceState = () => {
@@ -87,8 +87,8 @@ export default class Slice extends React.Component {
     this.renderer.resize(this.state.width, this.state.height);
   };
 
-  loop = () => {
-    requestAnimationFrame(this.loop);
+  animate = () => {
+    requestAnimationFrame(this.animate);
     this.sliceState();
 
     this.renderer.render(this.stage);
@@ -118,15 +118,29 @@ export default class Slice extends React.Component {
   };
   handlePenClick = () => {
     var rectangle = new Graphics();
-    rectangle.lineStyle(1, oxff3300, 1);
+
+    rectangle.lineStyle(1, 0xff3300, 1);
     rectangle.beginFill(0x66ccff);
+
     rectangle.drawRect(0, 0, 64, 64);
     rectangle.endFill();
     rectangle.x = 170;
     rectangle.y = 170;
     this.stage.addChild(rectangle);
 
-    this.renderer.render(this.stage);
+    rectangle.interactive = true;
+
+    rectangle.mouseover = data => {
+      rectangle.alpha = 0.5;
+      console.log("mouse over:", data);
+    };
+
+    rectangle.mouseout = data => {
+      rectangle.alpha = 1;
+      console.log("mouse out:", data);
+    };
+
+    //   this.renderer.render(this.stage);
   };
   componentWillMount() {
     this.checkIsWebGLSupported();
