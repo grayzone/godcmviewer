@@ -9,13 +9,16 @@ var autoDetectRenderer = PIXI.autoDetectRenderer;
 var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
 var Sprite = PIXI.Sprite;
+var Graphics = PIXI.Graphics;
 
 export default class Slice extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      slice: null
+      slice: null,
+      width: 0,
+      height: 0
     };
   }
 
@@ -66,13 +69,28 @@ export default class Slice extends React.Component {
     this.stage = new Container();
     this.stage.addChild(this.sprite);
 
-    this.renderer.autoResize = true;
-    this.renderer.resize(slice.Columns, slice.Rows);
+    this.setState({
+      width: slice.Columns,
+      height: slice.Rows
+    });
 
     this.loop();
   };
 
+  sliceState = () => {
+    this.play();
+  };
+
+  play = () => {
+    var slice = this.state.slice;
+    this.renderer.autoResize = true;
+    this.renderer.resize(this.state.width, this.state.height);
+  };
+
   loop = () => {
+    requestAnimationFrame(this.loop);
+    this.sliceState();
+
     this.renderer.render(this.stage);
   };
 
@@ -82,16 +100,31 @@ export default class Slice extends React.Component {
     this.stage.scale.y *= 1.1;
     this.stage.width *= 1.1;
     this.stage.height *= 1.1;
-    this.renderer.resize(this.stage.width, this.stage.height);
 
-    this.renderer.render(this.stage);
+    this.setState({
+      width: this.stage.width,
+      height: this.stage.height
+    });
   };
   handleZoomOutClick = () => {
     this.stage.scale.x *= 0.9;
     this.stage.scale.y *= 0.9;
     this.stage.width *= 0.9;
     this.stage.height *= 0.9;
-    this.renderer.resize(this.stage.width, this.stage.height);
+    this.setState({
+      width: this.stage.width,
+      height: this.stage.height
+    });
+  };
+  handlePenClick = () => {
+    var rectangle = new Graphics();
+    rectangle.lineStyle(1, oxff3300, 1);
+    rectangle.beginFill(0x66ccff);
+    rectangle.drawRect(0, 0, 64, 64);
+    rectangle.endFill();
+    rectangle.x = 170;
+    rectangle.y = 170;
+    this.stage.addChild(rectangle);
 
     this.renderer.render(this.stage);
   };
@@ -127,6 +160,9 @@ export default class Slice extends React.Component {
           </Button>
           <Button onClick={this.handleZoomOutClick}>
             <Icon type="minus" />
+          </Button>
+          <Button onClick={this.handlePenClick}>
+            <Icon type="edit" />
           </Button>
         </Col>
         <Col>
