@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import GoDCMMenu from "./lib/menu";
 import GoDcmAdmin from "./lib/admin";
-import PatientList from "./lib/list";
+import PatientList from "./lib/patientlist";
 import UploadDcm from "./lib/upload";
-import StudyList from "./lib/study";
-import SeriesList from "./lib/series";
-import SliceList from "./lib/slice";
+import StudyList from "./lib/studylist";
+import SeriesList from "./lib/serieslist";
+import SliceList from "./lib/slicelist";
+import Slice from "./lib/slice";
 
 var menuDIV = document.getElementById("godcmMenu");
 if (menuDIV != null) {
@@ -40,4 +41,10 @@ if (seriesListDIV != null) {
 var sliceListDIV = document.getElementById("slicelist");
 if (sliceListDIV != null) {
   ReactDOM.render(<SliceList />, sliceListDIV);
+}
+
+
+var sliceDIV = document.getElementById("slice");
+if (sliceDIV != null) {
+  ReactDOM.render(<Slice />, sliceDIV);
 }

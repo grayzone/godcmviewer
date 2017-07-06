@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
-import StudyList from "./study";
+import StudyList from "./studylist";
 
 export default class PatientCard extends React.Component {
   constructor(props) {

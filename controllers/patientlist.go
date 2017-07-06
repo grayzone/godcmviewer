@@ -5,11 +5,16 @@ import (
 	"github.com/grayzone/godcmviewer/models"
 )
 
-type PatientController struct {
+type PatientListController struct {
 	beego.Controller
 }
 
-func (c *PatientController) GetPatientList() {
+func (c *PatientListController) Get() {
+	c.TplName = "patientlist.html"
+	c.Layout = "layout.html"
+}
+
+func (c *PatientListController) GetPatientList() {
 	pl := models.GetPatients()
 	c.Data["json"] = &pl
 	c.ServeJSON()

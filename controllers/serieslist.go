@@ -5,16 +5,16 @@ import (
 	"github.com/grayzone/godcmviewer/models"
 )
 
-type SeriesController struct {
+type SeriesListController struct {
 	beego.Controller
 }
 
-func (c *SeriesController) Get() {
-	c.TplName = "series.html"
+func (c *SeriesListController) Get() {
+	c.TplName = "serieslist.html"
 	c.Layout = "layout.html"
 }
 
-func (c *SeriesController) GetSeriesList() {
+func (c *SeriesListController) GetSeriesList() {
 	studyuid := c.GetString("studyuid")
 	beego.Info("study uid:", studyuid)
 	result := models.GetSeries(studyuid)

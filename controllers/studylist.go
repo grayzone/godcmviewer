@@ -5,7 +5,7 @@ import (
 	"github.com/grayzone/godcmviewer/models"
 )
 
-type StudyController struct {
+type StudyListController struct {
 	beego.Controller
 }
 
@@ -15,7 +15,7 @@ func (c *StudyController) Get() {
 	c.Layout = "layout.html"
 }
 */
-func (c *StudyController) GetStudyList() {
+func (c *StudyListController) GetStudyList() {
 	patientuid := c.GetString("patientuid")
 	beego.Info("patient uid:", patientuid)
 	result := models.GetStudies(patientuid)
