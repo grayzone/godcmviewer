@@ -18,6 +18,8 @@ func init() {
 	beego.Router("/serieslist", &controllers.SeriesListController{}, "POST:GetSeriesList")
 	beego.Router("/slicelist", &controllers.SliceListController{}, "POST:GetSliceList")
 
+	beego.Router("/sliceinfo", &controllers.SliceController{}, "POST:GetSlice")
+
 	beego.Router("/upload/dicom", &controllers.UploadController{}, "POST:UploadDicom")
 
 }

@@ -16,7 +16,7 @@ type Slice struct {
 	Updated   time.Time `orm:"auto_now;type(datetime)"`
 }
 
-func (s Slice) Get() error {
+func (s *Slice) Get() error {
 	o := orm.NewOrm()
 	err := o.Read(s)
 	return err
