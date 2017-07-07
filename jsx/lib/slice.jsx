@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import { Row, Col, Button, Icon } from "antd";
 import $ from "jquery";
 import URL from "url";
+import MovingBlock from "../component/movingblock";
 
 var Container = PIXI.Container;
 var autoDetectRenderer = PIXI.autoDetectRenderer;
@@ -56,6 +57,7 @@ export default class Slice extends React.Component {
     //  console.log(slice);
     console.log(slice.Columns, slice.Rows);
     this.renderer = autoDetectRenderer(0, 0);
+
     //this.renderer.autoResize = true;
     //this.renderer.resize(slice.Columns, slice.Rows);
 
@@ -117,30 +119,9 @@ export default class Slice extends React.Component {
     });
   };
   handlePenClick = () => {
-    var rectangle = new Graphics();
-
-    rectangle.lineStyle(1, 0xff3300, 1);
-    rectangle.beginFill(0x66ccff);
-
-    rectangle.drawRect(0, 0, 64, 64);
-    rectangle.endFill();
-    rectangle.x = 170;
-    rectangle.y = 170;
-    this.stage.addChild(rectangle);
-
-    rectangle.interactive = true;
-
-    rectangle.mouseover = data => {
-      rectangle.alpha = 0.5;
-      console.log("mouse over:", data);
-    };
-
-    rectangle.mouseout = data => {
-      rectangle.alpha = 1;
-      console.log("mouse out:", data);
-    };
-
-    //   this.renderer.render(this.stage);
+    let b = new MovingBlock();
+    b.render();
+    this.stage.addChild(b);    
   };
   componentWillMount() {
     this.checkIsWebGLSupported();
