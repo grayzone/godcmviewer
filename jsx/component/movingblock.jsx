@@ -54,7 +54,7 @@ export default class MovingBlock extends PIXI.Graphics {
 
   rightclickFunc = event => {
     console.log("right click:", event);
-    this.visible = false;
+    this.destroy();
     document.getElementById("slice").oncontextmenu = e => {
       e.preventDefault();
     };
