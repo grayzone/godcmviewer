@@ -7,7 +7,7 @@ data/
 *.db
 godcmviewer
 godcmviewer.exe*
-godcmviewer.js
+bundle.js
 
 Gopkg.*
 yarn.*

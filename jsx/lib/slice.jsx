@@ -53,86 +53,55 @@ export default class Slice extends React.Component {
     PIXI.utils.sayHello(type);
   };
   initRender = () => {
-    var slice = this.state.slice;
+    //var slice = this.state.slice;
     //  console.log(slice);
-    console.log(slice.Columns, slice.Rows);
-    this.renderer = autoDetectRenderer(0, 0);
+    //console.log(slice.Columns, slice.Rows);
+
+    this.app = new PIXI.Application();
+    this.refs.container.appendChild(this.app.view);
+
+    //this.renderer = autoDetectRenderer(0, 0);
 
     //this.renderer.autoResize = true;
     //this.renderer.resize(slice.Columns, slice.Rows);
 
-    this.refs.container.appendChild(this.renderer.view);
+    //this.refs.container.appendChild(this.renderer.view);
   };
   setup = () => {
     var slice = this.state.slice;
     this.sprite = new Sprite(resources[slice.Filepath].texture);
-    //this.sprite.width = slice.Columns;
+   // this.sprite.width = slice.Columns;
     //this.sprite.height = slice.Rows;
-    this.stage = new Container();
-    this.stage.addChild(this.sprite);
+    //this.stage = new Container();
+    this.app.stage.addChild(this.sprite);
 
     this.setState({
       width: slice.Columns,
       height: slice.Rows
     });
 
-    this.animate();
+    // this.animate();
   };
-
+  /*
   sliceState = () => {
     this.play();
   };
 
-  play = () => {
-    var slice = this.state.slice;
-    this.renderer.autoResize = true;
-    this.renderer.resize(this.state.width, this.state.height);
-  };
 
   animate = () => {
     requestAnimationFrame(this.animate);
     this.sliceState();
 
-    this.renderer.render(this.stage);
+    this.renderer.render(this.app.stage);
+  };
+*/
+
+  play = () => {
+    var slice = this.state.slice;
+    this.app.renderer.autoResize = true;
+    this.app.renderer.resize(this.state.width, this.state.height);
   };
 
-  handleZoomInClick = () => {
-    // console.log("zoom in");
-    this.stage.scale.x *= 1.1;
-    this.stage.scale.y *= 1.1;
-    this.stage.width *= 1.1;
-    this.stage.height *= 1.1;
-
-    this.setState({
-      width: this.stage.width,
-      height: this.stage.height
-    });
-  };
-  handleZoomOutClick = () => {
-    this.stage.scale.x *= 0.9;
-    this.stage.scale.y *= 0.9;
-    this.stage.width *= 0.9;
-    this.stage.height *= 0.9;
-    this.setState({
-      width: this.stage.width,
-      height: this.stage.height
-    });
-  };
-  handlePenClick = () => {
-    let b = new MovingBlock();
-    b.render();
-    this.stage.addChild(b);    
-  };
-  componentWillMount() {
-    this.checkIsWebGLSupported();
-
-    var p = URL.parse(window.location.href, true);
-    // console.log(p);
-    var sliceuid = p.path.substr(7);
-    //     console.log(sliceuid);
-
-    this.getSliceInfo(sliceuid);
-  }
   loadProgressHandler = (loader, resource) => {
     console.log(
       "loading: " + resource.url + ", progress:" + loader.progress + "%"
@@ -145,6 +114,46 @@ export default class Slice extends React.Component {
       .add(this.state.slice.Filepath)
       .on("progress", this.loadProgressHandler)
       .load(this.setup);
+
+    this.app.ticker.add(this.play);
+  }
+  handleZoomInClick = () => {
+    // console.log("zoom in");
+    this.app.stage.scale.x *= 1.1;
+    this.app.stage.scale.y *= 1.1;
+    this.app.stage.width *= 1.1;
+    this.app.stage.height *= 1.1;
+
+    this.setState({
+      width: this.app.stage.width,
+      height: this.app.stage.height
+    });
+  };
+  handleZoomOutClick = () => {
+    this.app.stage.scale.x *= 0.9;
+    this.app.stage.scale.y *= 0.9;
+    this.app.stage.width *= 0.9;
+    this.app.stage.height *= 0.9;
+    this.setState({
+      width: this.app.stage.width,
+      height: this.app.stage.height
+    });
+  };
+  handlePenClick = () => {
+    let b = new MovingBlock();
+    b.render();
+    this.app.stage.addChild(b);
+  };
+  componentWillMount() {
+    this.checkIsWebGLSupported();
+    PIXI.utils.sayHello(this.state.supportMode);
+
+    var p = URL.parse(window.location.href, true);
+    // console.log(p);
+    var sliceuid = p.path.substr(7);
+    //     console.log(sliceuid);
+
+    this.getSliceInfo(sliceuid);
   }
   render() {
     return (

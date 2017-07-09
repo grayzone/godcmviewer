@@ -13,6 +13,7 @@ export default class MovingBlock extends PIXI.Graphics {
     console.log("render the block");
     //    this.block = new Graphics();
     this.interactive = true;
+    this.buttonMode = true;
     this.lineStyle(0, 0xff3300, 1);
     this.beginFill(0x66ccff);
 
@@ -25,6 +26,12 @@ export default class MovingBlock extends PIXI.Graphics {
     this.mouseup = this.mouseupFunc;
     this.mousemove = this.mousemoveFunc;
     this.rightclick = this.rightclickFunc;
+
+    this.touchcancel = this.rightclick;
+    this.touchendoutside = this.rightclick;
+    this.touchend = this.mouseup;
+    this.touchstart = this.mousedown;
+    this.touchmove = this.mousemove;
   }
 
   mousedownFunc = event => {
