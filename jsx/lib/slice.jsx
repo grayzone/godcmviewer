@@ -19,9 +19,8 @@ export default class Slice extends React.Component {
     super(props);
 
     this.state = {
-      slice: null,
-      width: 0,
-      height: 0,
+      stage: null,
+       slice: null,
       supportMode: ""
     };
   }
@@ -58,10 +57,6 @@ export default class Slice extends React.Component {
     });
   };
   initRender = () => {
-    //var slice = this.state.slice;
-    //  console.log(slice);
-    //console.log(slice.Columns, slice.Rows);
-
     this.app = new PIXI.Application();
     this.app.stage.interactive = true;
     this.refs.container.appendChild(this.app.view);
@@ -70,41 +65,17 @@ export default class Slice extends React.Component {
       e.preventDefault();
     };
 
-    //this.renderer = autoDetectRenderer(0, 0);
-
-    //this.renderer.autoResize = true;
-    //this.renderer.resize(slice.Columns, slice.Rows);
-
-    //this.refs.container.appendChild(this.renderer.view);
+    this.setState({
+      stage: this.app.stage
+    });
   };
   setup = () => {
     var slice = this.state.slice;
     this.sprite = new Sprite(resources[slice.Filepath].texture);
-    // this.sprite.width = slice.Columns;
-    //this.sprite.height = slice.Rows;
-    //this.stage = new Container();
+
     this.app.stage.addChild(this.sprite);
 
-    this.setState({
-      width: slice.Columns,
-      height: slice.Rows
-    });
-
-    // this.animate();
   };
-  /*
-  sliceState = () => {
-    this.play();
-  };
-
-
-  animate = () => {
-    requestAnimationFrame(this.animate);
-    this.sliceState();
-
-    this.renderer.render(this.app.stage);
-  };
-*/
 
   loadProgressHandler = (loader, resource) => {
     console.log(
@@ -112,68 +83,29 @@ export default class Slice extends React.Component {
     );
   };
   componentDidMount() {
-    //     console.log("componentDidMount");
-    //PIXI.utils.sayHello(this.type);
     this.initRender();
     loader
       .add(this.state.slice.Filepath)
       .on("progress", this.loadProgressHandler)
       .load(this.setup);
-
     this.app.ticker.add(this.play);
   }
 
   play = () => {
-    var slice = this.state.slice;
     this.app.renderer.autoResize = true;
-    this.app.renderer.resize(this.state.width, this.state.height);
+    this.app.renderer.resize(window.innerWidth, window.innerHeight);
   };
 
-  handleZoomInClick = () => {
-    console.log("zoom in");
-    this.app.stage.scale.x *= 1.1;
-    this.app.stage.scale.y *= 1.1;
-    this.app.stage.width *= 1.1;
-    this.app.stage.height *= 1.1;
-
-    this.setState({
-      width: this.app.stage.width,
-      height: this.app.stage.height
-    });
-  };
-  handleZoomOutClick = () => {
-    console.log("zoom out");
-    this.app.stage.scale.x *= 0.9;
-    this.app.stage.scale.y *= 0.9;
-    this.app.stage.width *= 0.9;
-    this.app.stage.height *= 0.9;
-    this.setState({
-      width: this.app.stage.width,
-      height: this.app.stage.height
-    });
-  };
   handleMegnifierMasClick = () => {
     let b = new MovingBlock();
     b.render();
     this.app.stage.addChild(b);
   };
 
-  handleZoomClick = () => {
-    var z = new Zoom();
-    z.render(this.app.stage);
-    this.setState({
-      width: z.width,
-      height: z.height
-    });
-  };
-
   handleRadioGroupClick = e => {
     console.log("change:", e.target.value);
 
     switch (e.target.value) {
-      case "zoom":
-        this.handleZoomClick();
-        break;
       case "edit":
         this.handleMaskPenClick();
         break;
@@ -203,8 +135,8 @@ export default class Slice extends React.Component {
           <Tag color="green">
             {this.state.supportMode}
           </Tag>
+          <Zoom stage={this.state.stage} />
           <Radio.Group onChange={this.handleRadioGroupClick}>
-            <Radio.Button value="zoom">Zoom</Radio.Button>
             <Radio.Button value="edit">Edit</Radio.Button>
           </Radio.Group>
 
