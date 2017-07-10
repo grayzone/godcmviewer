@@ -1,13 +1,14 @@
-import React from "react";
 import * as PIXI from "pixi.js";
 
 //var Graphics = PIXI.Graphics;
 
 export default class MovingBlock extends PIXI.Graphics {
+  /*
   constructor() {
     super();
     console.log("new moving block");
   }
+  */
 
   render() {
     console.log("render the block");

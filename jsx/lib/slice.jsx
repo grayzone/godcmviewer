@@ -1,9 +1,11 @@
 import React from "react";
 import * as PIXI from "pixi.js";
-import { Row, Col, Button, Icon } from "antd";
+import { Row, Col, Button, Icon, Tag, Radio } from "antd";
 import $ from "jquery";
 import URL from "url";
 import MovingBlock from "../component/movingblock";
+import MaskPen from "../component/maskpen";
+import Zoom from "../component/zoom";
 
 var Container = PIXI.Container;
 var autoDetectRenderer = PIXI.autoDetectRenderer;
@@ -19,7 +21,8 @@ export default class Slice extends React.Component {
     this.state = {
       slice: null,
       width: 0,
-      height: 0
+      height: 0,
+      supportMode: ""
     };
   }
 
@@ -46,11 +49,13 @@ export default class Slice extends React.Component {
     });
   };
   checkIsWebGLSupported = () => {
-    var type = "WebGL";
+    let type = "WebGL";
     if (!PIXI.utils.isWebGLSupported()) {
       type = "Canvas";
     }
-    PIXI.utils.sayHello(type);
+    this.setState({
+      supportMode: type
+    });
   };
   initRender = () => {
     //var slice = this.state.slice;
@@ -58,7 +63,12 @@ export default class Slice extends React.Component {
     //console.log(slice.Columns, slice.Rows);
 
     this.app = new PIXI.Application();
+    this.app.stage.interactive = true;
     this.refs.container.appendChild(this.app.view);
+
+    this.refs.container.oncontextmenu = e => {
+      e.preventDefault();
+    };
 
     //this.renderer = autoDetectRenderer(0, 0);
 
@@ -70,7 +80,7 @@ export default class Slice extends React.Component {
   setup = () => {
     var slice = this.state.slice;
     this.sprite = new Sprite(resources[slice.Filepath].texture);
-   // this.sprite.width = slice.Columns;
+    // this.sprite.width = slice.Columns;
     //this.sprite.height = slice.Rows;
     //this.stage = new Container();
     this.app.stage.addChild(this.sprite);
@@ -96,12 +106,6 @@ export default class Slice extends React.Component {
   };
 */
 
-  play = () => {
-    var slice = this.state.slice;
-    this.app.renderer.autoResize = true;
-    this.app.renderer.resize(this.state.width, this.state.height);
-  };
-
   loadProgressHandler = (loader, resource) => {
     console.log(
       "loading: " + resource.url + ", progress:" + loader.progress + "%"
@@ -109,6 +113,7 @@ export default class Slice extends React.Component {
   };
   componentDidMount() {
     //     console.log("componentDidMount");
+    //PIXI.utils.sayHello(this.type);
     this.initRender();
     loader
       .add(this.state.slice.Filepath)
@@ -117,8 +122,15 @@ export default class Slice extends React.Component {
 
     this.app.ticker.add(this.play);
   }
+
+  play = () => {
+    var slice = this.state.slice;
+    this.app.renderer.autoResize = true;
+    this.app.renderer.resize(this.state.width, this.state.height);
+  };
+
   handleZoomInClick = () => {
-    // console.log("zoom in");
+    console.log("zoom in");
     this.app.stage.scale.x *= 1.1;
     this.app.stage.scale.y *= 1.1;
     this.app.stage.width *= 1.1;
@@ -130,6 +142,7 @@ export default class Slice extends React.Component {
     });
   };
   handleZoomOutClick = () => {
+    console.log("zoom out");
     this.app.stage.scale.x *= 0.9;
     this.app.stage.scale.y *= 0.9;
     this.app.stage.width *= 0.9;
@@ -139,14 +152,42 @@ export default class Slice extends React.Component {
       height: this.app.stage.height
     });
   };
-  handlePenClick = () => {
+  handleMegnifierMasClick = () => {
     let b = new MovingBlock();
     b.render();
     this.app.stage.addChild(b);
   };
+
+  handleZoomClick = () => {
+    var z = new Zoom();
+    z.render(this.app.stage);
+    this.setState({
+      width: z.width,
+      height: z.height
+    });
+  };
+
+  handleRadioGroupClick = e => {
+    console.log("change:", e.target.value);
+
+    switch (e.target.value) {
+      case "zoom":
+        this.handleZoomClick();
+        break;
+      case "edit":
+        this.handleMaskPenClick();
+        break;
+    }
+  };
+  handleMaskPenClick = () => {
+    console.log("mask pen");
+    let m = new MaskPen();
+    m.render();
+    // this.app.stage.addChild(m);
+    this.app.stage.mask = m;
+  };
   componentWillMount() {
     this.checkIsWebGLSupported();
-    PIXI.utils.sayHello(this.state.supportMode);
 
     var p = URL.parse(window.location.href, true);
     // console.log(p);
@@ -159,13 +200,24 @@ export default class Slice extends React.Component {
     return (
       <Row>
         <Col>
+          <Tag color="green">
+            {this.state.supportMode}
+          </Tag>
+          <Radio.Group onChange={this.handleRadioGroupClick}>
+            <Radio.Button value="zoom">Zoom</Radio.Button>
+            <Radio.Button value="edit">Edit</Radio.Button>
+          </Radio.Group>
+
           <Button onClick={this.handleZoomInClick}>
             <Icon type="plus" />
           </Button>
           <Button onClick={this.handleZoomOutClick}>
             <Icon type="minus" />
           </Button>
-          <Button onClick={this.handlePenClick}>
+          <Button onClick={this.handleMegnifierMasClick}>
+            <Icon type="search" />
+          </Button>
+          <Button onClick={this.handleMaskPenClick}>
             <Icon type="edit" />
           </Button>
         </Col>
