@@ -4,7 +4,7 @@ import { Row, Col, Button, Icon, Tag, Radio } from "antd";
 import $ from "jquery";
 import URL from "url";
 import MovingBlock from "../component/movingblock";
-import MaskPen from "../component/maskpen";
+import Pen from "../component/pen";
 import Zoom from "../component/zoom";
 
 var Container = PIXI.Container;
@@ -136,16 +136,10 @@ export default class Slice extends React.Component {
             {this.state.supportMode}
           </Tag>
           <Zoom stage={this.state.stage} />
+          <Pen stage={this.state.stage} />
           <Radio.Group onChange={this.handleRadioGroupClick}>
             <Radio.Button value="edit">Edit</Radio.Button>
           </Radio.Group>
-
-          <Button onClick={this.handleZoomInClick}>
-            <Icon type="plus" />
-          </Button>
-          <Button onClick={this.handleZoomOutClick}>
-            <Icon type="minus" />
-          </Button>
           <Button onClick={this.handleMegnifierMasClick}>
             <Icon type="search" />
           </Button>

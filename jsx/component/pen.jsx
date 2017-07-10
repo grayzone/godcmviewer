@@ -1,21 +1,21 @@
+import React from "react";
 import * as PIXI from "pixi.js";
+import { Button, Icon } from "antd";
 
-export default class MaskPen extends PIXI.Graphics {
+export default class Pen extends React.Component {
   render() {
-    this.interactive = true;
-    this.isMask = true;
-
-    this.beginFill(0xffffff);
-    this.drawCircle(10, 10, 10);
-    this.endFill();
-
-    this.pointerdown = this.pointerDown;
-    this.pointerup = this.pointerUp;
-    this.pointermove = this.pointerMove;
-    this.rightclick = this.rightClick;
+    return (
+      <Button onClick={this.handlePenClick}>
+        <Icon type="edit" />
+      </Button>
+    );
+  }
+  handlePenClick = e => {
+    let s = this.props.stage;
+    s.interactive = true;
 
     console.log("mask pen render");
-  }
+  };
   pointerDown = event => {
     this.dragging = true;
     this.pointerMove();
@@ -28,7 +28,7 @@ export default class MaskPen extends PIXI.Graphics {
       return;
     }
     console.log("mask pen moving event:", event);
-   // this.position.copy(event.data.global);
+    // this.position.copy(event.data.global);
 
     console.log("mouse move:", event);
     var newPos = event.data.getLocalPosition(this.parent);
@@ -46,6 +46,5 @@ export default class MaskPen extends PIXI.Graphics {
   rightClick = event => {
     console.log("right click:", event);
     this.destroy();
-    
   };
 }
