@@ -2,6 +2,8 @@ import React from "react";
 import * as PIXI from "pixi.js";
 import { Tag } from "antd";
 
+var Graphics = PIXI.Graphics;
+
 export default class Pen extends React.Component {
   constructor(props) {
     super(props);
@@ -24,41 +26,46 @@ export default class Pen extends React.Component {
     this.setState({ checked });
 
     if (!checked) {
-      this.props.stage.interactive = false;
+      this.release();
       //      console.log("disable pen");
       return;
     }
     //   console.log("enable pen");
+
+    this.stage = this.props.stage;
+    this.stage.interactive = true;
+
+    this.stage.on("pointerdown", this.pointerDown);
+    this.stage.on("pointerup", this.pointerUp);
+    this.stage.on("pointermove", this.pointerMove);
   };
+
+  release = stage => {
+    this.props.stage.interactive = false;
+  };
+
   pointerDown = event => {
-    this.dragging = true;
+    this.painting = true;
+    this.pen = new Graphics();
+    this.pen.beginFill(0xffffff);
+    
+   
     this.pointerMove();
   };
   pointerUp = event => {
-    this.dragging = false;
+    this.painting = false;
+    this.pen.endFill();
+    this.pen.destroy();
   };
   pointerMove = event => {
-    if (!this.dragging) {
+    if (!this.painting) {
       return;
     }
-    console.log("mask pen moving event:", event);
-    // this.position.copy(event.data.global);
-
-    console.log("mouse move:", event);
-    var newPos = event.data.getLocalPosition(this.parent);
-    console.log("mouse postion:", newPos);
-    this.position.x = newPos.x - this.width / 2;
-    this.position.y = newPos.y - this.height / 2;
-
-    this.beginFill(0xffffff);
-    this.drawCircle(this.position.x, this.position.y, 10);
-    this.endFill();
-
-    //   app.renderer.render(this);
-  };
-
-  rightClick = event => {
-    console.log("right click:", event);
-    this.destroy();
+    this.pen.drawCircle(0, 0, 10);
+    console.log("moving pen event:", event);
+    console.log("global position:", event.data.global);
+    this.pen.position.copy(event.data.global);
+    
+    this.stage.addChild(this.pen);
   };
 }

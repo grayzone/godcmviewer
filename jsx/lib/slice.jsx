@@ -57,7 +57,8 @@ export default class Slice extends React.Component {
   };
   initRender = () => {
     this.app = new PIXI.Application();
-    // this.app.stage.interactive = true;
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+     this.app.stage.interactive = true;
     this.refs.container.appendChild(this.app.view);
 
     this.refs.container.oncontextmenu = e => {
