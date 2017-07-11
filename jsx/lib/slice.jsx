@@ -6,12 +6,9 @@ import URL from "url";
 import MovingBlock from "../component/movingblock";
 import SliceToolbar from "./SliceToolbar";
 
-var Container = PIXI.Container;
-var autoDetectRenderer = PIXI.autoDetectRenderer;
 var loader = PIXI.loader;
 var resources = PIXI.loader.resources;
 var Sprite = PIXI.Sprite;
-var Graphics = PIXI.Graphics;
 
 export default class Slice extends React.Component {
   constructor(props) {
@@ -36,7 +33,7 @@ export default class Slice extends React.Component {
         sliceuid: sliceuid
       },
       success: data => {
-        console.log("get the slice info.", data);
+   //     console.log("get the slice info.", data);
         this.setState({
           slice: data
         });

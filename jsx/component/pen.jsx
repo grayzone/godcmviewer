@@ -27,45 +27,60 @@ export default class Pen extends React.Component {
 
     if (!checked) {
       this.release();
-      //      console.log("disable pen");
+      console.log("disable pen");
       return;
     }
-    //   console.log("enable pen");
+    console.log("enable pen");
 
-    this.stage = this.props.stage;
-    this.stage.interactive = true;
-
-    this.stage.on("pointerdown", this.pointerDown);
-    this.stage.on("pointerup", this.pointerUp);
-    this.stage.on("pointermove", this.pointerMove);
+    this.create();
   };
 
-  release = stage => {
-    this.props.stage.interactive = false;
-  };
-
-  pointerDown = event => {
-    this.painting = true;
+  create = () => {
+    console.log("create pen");
     this.pen = new Graphics();
-    this.pen.beginFill(0xffffff);
-    
-   
-    this.pointerMove();
+    this.props.stage.addChild(this.pen);
+    this.pen.interactive = true;
+    this.pen.buttonMode = true;
+    this.pen.hitArea = new PIXI.Rectangle(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    this.pen.on("pointerdown", this.onStartPaint);
+    this.pen.on("pointermove", this.onPainting);
+    this.pen.on("pointerup", this.onEndPaint);
+    this.pen.on("pointerupoutside", this.onEndPaint);
   };
-  pointerUp = event => {
-    this.painting = false;
-    this.pen.endFill();
+
+  release = () => {
     this.pen.destroy();
   };
-  pointerMove = event => {
+
+  onStartPaint = event => {
+    console.log("onStartPaint");
+    this.painting = true;
+    this.pen.data = event.data;
+    this.pen.beginFill(0xffd900);
+    this.pen.lineStyle(1, 0xffd900, 0.5);
+  };
+  onEndPaint = event => {
+    console.log("onEndPaint");
+    this.pen.endFill();
+    this.painting = false;
+    this.pen.data = null;
+  };
+  onPainting = event => {
+    //    console.log("onPainting");
     if (!this.painting) {
       return;
     }
-    this.pen.drawCircle(0, 0, 10);
-    console.log("moving pen event:", event);
-    console.log("global position:", event.data.global);
-    this.pen.position.copy(event.data.global);
-    
-    this.stage.addChild(this.pen);
+    //   console.log("data:", this.pen.data);
+    let pos = this.pen.data.getLocalPosition(this.pen.parent);
+    //    console.log("postion:", pos);
+    this.pen.moveTo(pos.x, pos.y);
+    //this.pen.lineTo(pos.x, pos.y);
+    this.pen.drawCircle(pos.x, pos.y, 1);
   };
 }
