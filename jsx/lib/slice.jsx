@@ -1,11 +1,10 @@
 import React from "react";
 import * as PIXI from "pixi.js";
-import { Row, Col, Button, Icon, Tag, Radio } from "antd";
+import { Tag, Card } from "antd";
 import $ from "jquery";
 import URL from "url";
 import MovingBlock from "../component/movingblock";
-import Pen from "../component/pen";
-import Zoom from "../component/zoom";
+import SliceToolbar from "./SliceToolbar";
 
 var Container = PIXI.Container;
 var autoDetectRenderer = PIXI.autoDetectRenderer;
@@ -20,7 +19,7 @@ export default class Slice extends React.Component {
 
     this.state = {
       stage: null,
-       slice: null,
+      slice: null,
       supportMode: ""
     };
   }
@@ -58,7 +57,7 @@ export default class Slice extends React.Component {
   };
   initRender = () => {
     this.app = new PIXI.Application();
-    this.app.stage.interactive = true;
+    // this.app.stage.interactive = true;
     this.refs.container.appendChild(this.app.view);
 
     this.refs.container.oncontextmenu = e => {
@@ -74,7 +73,6 @@ export default class Slice extends React.Component {
     this.sprite = new Sprite(resources[slice.Filepath].texture);
 
     this.app.stage.addChild(this.sprite);
-
   };
 
   loadProgressHandler = (loader, resource) => {
@@ -96,28 +94,6 @@ export default class Slice extends React.Component {
     this.app.renderer.resize(window.innerWidth, window.innerHeight);
   };
 
-  handleMegnifierMasClick = () => {
-    let b = new MovingBlock();
-    b.render();
-    this.app.stage.addChild(b);
-  };
-
-  handleRadioGroupClick = e => {
-    console.log("change:", e.target.value);
-
-    switch (e.target.value) {
-      case "edit":
-        this.handleMaskPenClick();
-        break;
-    }
-  };
-  handleMaskPenClick = () => {
-    console.log("mask pen");
-    let m = new MaskPen();
-    m.render();
-    // this.app.stage.addChild(m);
-    this.app.stage.mask = m;
-  };
   componentWillMount() {
     this.checkIsWebGLSupported();
 
@@ -130,27 +106,17 @@ export default class Slice extends React.Component {
   }
   render() {
     return (
-      <Row>
-        <Col>
+      <Card
+        title={<SliceToolbar stage={this.state.stage} />}
+        extra={
           <Tag color="green">
             {this.state.supportMode}
           </Tag>
-          <Zoom stage={this.state.stage} />
-          <Pen stage={this.state.stage} />
-          <Radio.Group onChange={this.handleRadioGroupClick}>
-            <Radio.Button value="edit">Edit</Radio.Button>
-          </Radio.Group>
-          <Button onClick={this.handleMegnifierMasClick}>
-            <Icon type="search" />
-          </Button>
-          <Button onClick={this.handleMaskPenClick}>
-            <Icon type="edit" />
-          </Button>
-        </Col>
-        <Col>
-          <div ref="container" />
-        </Col>
-      </Row>
+        }
+        bodyStyle={{ padding: 0 }}
+      >
+        <div ref="container" />
+      </Card>
     );
   }
 }

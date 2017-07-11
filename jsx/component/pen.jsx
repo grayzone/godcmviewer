@@ -1,20 +1,34 @@
 import React from "react";
 import * as PIXI from "pixi.js";
-import { Button, Icon } from "antd";
+import { Tag } from "antd";
 
 export default class Pen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: false
+    };
+  }
+
   render() {
     return (
-      <Button onClick={this.handlePenClick}>
-        <Icon type="edit" />
-      </Button>
+      <Tag.CheckableTag
+        checked={this.state.checked}
+        onChange={this.handlePenChange}
+      >
+        Pen
+      </Tag.CheckableTag>
     );
   }
-  handlePenClick = e => {
-    let s = this.props.stage;
-    s.interactive = true;
+  handlePenChange = checked => {
+    this.setState({ checked });
 
-    console.log("mask pen render");
+    if (!checked) {
+      this.props.stage.interactive = false;
+      //      console.log("disable pen");
+      return;
+    }
+    //   console.log("enable pen");
   };
   pointerDown = event => {
     this.dragging = true;
