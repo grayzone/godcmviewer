@@ -20,11 +20,13 @@ export default class Zoom extends React.Component {
   }
 
   handleZoomIn = e => {
+  //  this.props.stage.cursor = "zoom-in";
     this.props.stage.scale.x *= 1 + this.state.zoomLevel;
     this.props.stage.scale.y *= 1 + this.state.zoomLevel;
   };
 
   handleZoomOut = e => {
+  //  this.props.stage.cursor = "zoom-out";
     this.props.stage.scale.x *= 1 - this.state.zoomLevel;
     this.props.stage.scale.y *= 1 - this.state.zoomLevel;
   };

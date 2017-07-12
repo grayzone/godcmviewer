@@ -80,8 +80,17 @@ export default class PointMark extends React.Component {
 
   end = event => {
     this.paiting = false;
+
+    this.point.clear();
+
     this.point.drawPolygon(this.state.list);
+    //  this.point.endFill();
+
+    this.point.updateLocalBounds();
+    var bound = this.point.getLocalBounds();
+    this.point.drawShape(bound);
     this.point.endFill();
+
     this.setState({
       list: []
     });
