@@ -3,6 +3,7 @@ import { Tag } from "antd";
 
 import Zoom from "../component/zoom";
 import Pen from "../component/pen";
+import PointMark from "../component/point";
 
 export default class SliceToolbar extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class SliceToolbar extends React.Component {
       <div>
         <Zoom {...this.props} />
         <Pen {...this.props} />
+        <PointMark {...this.props} />
       </div>
     );
   }

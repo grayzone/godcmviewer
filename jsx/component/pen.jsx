@@ -59,14 +59,14 @@ export default class Pen extends React.Component {
   };
 
   onStartPaint = event => {
-    console.log("onStartPaint");
+    //console.log("onStartPaint");
     this.painting = true;
     this.pen.data = event.data;
     this.pen.beginFill(0xffd900);
-    this.pen.lineStyle(1, 0xffd900, 0.5);
+    this.pen.lineStyle(12, 0xffd900, 0.5);
   };
   onEndPaint = event => {
-    console.log("onEndPaint");
+    //console.log("onEndPaint");
     this.pen.endFill();
     this.painting = false;
     this.pen.data = null;
@@ -76,11 +76,14 @@ export default class Pen extends React.Component {
     if (!this.painting) {
       return;
     }
-    //   console.log("data:", this.pen.data);
+    console.log("pen:", this.pen);
+    console.log("data:", this.pen.data);
+    console.log("event:", event);
     let pos = this.pen.data.getLocalPosition(this.pen.parent);
-    //    console.log("postion:", pos);
+    console.log("postion:", pos);
+    console.log("local postion:", this.pen.position);
     this.pen.moveTo(pos.x, pos.y);
-    //this.pen.lineTo(pos.x, pos.y);
-    this.pen.drawCircle(pos.x, pos.y, 1);
+    this.pen.lineTo(pos.x, pos.y);
+    //this.pen.drawCircle(pos.x, pos.y, 2);
   };
 }
